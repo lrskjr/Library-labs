@@ -30,7 +30,7 @@ jobs:
       - name: Render README
         env: 
           TEST_SECRET: ${{ secrets.TEST_SECRET}}
-        run: Rscript -e 'rmarkdown::render("README.Rmd", output_format = "html_document")'
+        run: Rscript -e 'rmarkdown::render("README.Rmd")'
       - name: Render contributeside
         env: 
           CLIENT_SECRET: ${{ secrets.CLIENT_SECRET}}
