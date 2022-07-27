@@ -180,7 +180,7 @@ pre code {
 <div id="update-your-data" class="section level2">
 <h2>Update your data</h2>
 <p>Maybe we have gotten your data wrong. Maybe there is simply something missing.</p>
-<p>Go to the repo, and place pull request for a change in the json-file corresponding to your lab.</p>
+<p>Go to the repo, and place pull request for a change in the json-file corresponding to your lab. The relevant file is listed in the table below.</p>
 </div>
 <div id="add-your-data" class="section level2">
 <h2>Add your data</h2>
@@ -194,6 +194,64 @@ pre code {
 <p>Fork the project, make it better, make a pull-request. We would be so grateful!</p>
 <p>Cheers</p>
 <p>Lars &amp; Christian</p>
+</div>
+<div id="what-json-file-is-mine" class="section level2">
+<h2>What json-file is mine?</h2>
+<pre class="r"><code>json_files &lt;- list.files(path = &quot;data/&quot;, full.names = T)
+json_files &lt;- json_files[json_files != &quot;data/template.json&quot;]
+json_files %&gt;% 
+  as_tibble() %&gt;% 
+  mutate(data = map(value, fromJSON)) %&gt;% 
+  unnest(data) %&gt;% 
+  select(&quot;jsonfile&quot; = value, name) %&gt;% 
+  unnest(name) %&gt;% 
+  kable()</code></pre>
+<table>
+<colgroup>
+<col width="54%" />
+<col width="45%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">jsonfile</th>
+<th align="left">name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">data//Center for Special Collections og Digital humanities.json</td>
+<td align="left">Center for Special Collections og Digital humanities</td>
+</tr>
+<tr class="even">
+<td align="left">data//DigiMaker.json</td>
+<td align="left">DigiMaker</td>
+</tr>
+<tr class="odd">
+<td align="left">data//Digital Lab.json</td>
+<td align="left">Digital Lab</td>
+</tr>
+<tr class="even">
+<td align="left">data//Digital Scholarship Centre.json</td>
+<td align="left">Digital Scholarship Centre</td>
+</tr>
+<tr class="odd">
+<td align="left">data//IT Laboratories.json</td>
+<td align="left">IT Laboratories</td>
+</tr>
+<tr class="even">
+<td align="left">data//kubdatalab.json</td>
+<td align="left">KUB datalab</td>
+</tr>
+<tr class="odd">
+<td align="left">data//template.json</td>
+<td align="left">KUB datalab</td>
+</tr>
+<tr class="even">
+<td align="left">data//The Digital Library Lab.json</td>
+<td align="left">The Digital Library Lab</td>
+</tr>
+</tbody>
+</table>
 <p>KUB Datalab</p>
 </div>
 
