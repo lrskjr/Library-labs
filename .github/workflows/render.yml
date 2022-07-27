@@ -20,6 +20,7 @@ jobs:
           Rscript -e 'install.packages("leaflet")'
           Rscript -e 'install.packages("purrr")'
           Rscript -e 'install.packages("tibble")'
+          Rscript -e 'install.packages("kable")'
           Rscript -e 'install.packages("tidyverse")'
           Rscript -e 'install.packages("plotly")'
           Rscript -e 'install.packages("knitr")'
@@ -35,7 +36,7 @@ jobs:
       - name: Render contributeside
         env: 
           CLIENT_SECRET: ${{ secrets.CLIENT_SECRET}}
-        run: Rscript -e 'rmarkdown::render("contribute.Rmd", output_format = "html_document")'
+        run: Rscript -e 'rmarkdown::render("contribute.Rmd")'
       - name: Commit results
         run: |
           git config --local user.email "actions@github.com"
