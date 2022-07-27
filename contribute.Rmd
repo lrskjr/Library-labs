@@ -25,7 +25,7 @@ You can contribute in several ways:
 ## Update your data
 Maybe we have gotten your data wrong. Maybe there is simply something missing.
 
-Go to the repo, and place pull request for a change in the json-file
+Go to the [repo](https://github.com/KUBDatalab/Library-labs), and place pull request for a change in the json-file
 corresponding to your lab. The relevant file is listed in the table below.
 
 ## Add your data
@@ -33,8 +33,11 @@ corresponding to your lab. The relevant file is listed in the table below.
 Maybe we have forgotten about you. Maybe we simply did not know that you 
 exist. Or maybe we have not got to you yet.
 
-Go to the repo, grab the template json-file, fill out your information, and 
-place at pull request for adding the file.
+Go to the [repo](https://github.com/KUBDatalab/Library-labs), grab the template 
+json-file, fill out your information, and place a pull request for adding the file.
+
+Instructions on what should be added are (will be) in the template. 
+Try to keep special characters and whitespace out of the filename.
 
 ## Contribute to the project.
 This was hacked together during a couple of afternoons, including the time
@@ -49,10 +52,10 @@ Cheers
 Lars & Christian
 
 
-## What json-file is mine?
+## Which json-file is mine?
 
 
-```{r læsfiler}
+```{r læsfiler, echo = F}
 json_files <- list.files(path = "data/", full.names = T)
 json_files <- json_files[json_files != "data/template.json"]
 json_files %>% 
