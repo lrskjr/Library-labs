@@ -180,12 +180,13 @@ pre code {
 <div id="update-your-data" class="section level2">
 <h2>Update your data</h2>
 <p>Maybe we have gotten your data wrong. Maybe there is simply something missing.</p>
-<p>Go to the repo, and place pull request for a change in the json-file corresponding to your lab. The relevant file is listed in the table below.</p>
+<p>Go to the <a href="https://github.com/KUBDatalab/Library-labs">repo</a>, and place pull request for a change in the json-file corresponding to your lab. The relevant file is listed in the table below.</p>
 </div>
 <div id="add-your-data" class="section level2">
 <h2>Add your data</h2>
 <p>Maybe we have forgotten about you. Maybe we simply did not know that you exist. Or maybe we have not got to you yet.</p>
-<p>Go to the repo, grab the template json-file, fill out your information, and place at pull request for adding the file.</p>
+<p>Go to the <a href="https://github.com/KUBDatalab/Library-labs">repo</a>, grab the template json-file, fill out your information, and place a pull request for adding the file.</p>
+<p>Instructions on what should be added are (will be) in the template. Try to keep special characters and whitespace out of the filename.</p>
 </div>
 <div id="contribute-to-the-project." class="section level2">
 <h2>Contribute to the project.</h2>
@@ -195,17 +196,8 @@ pre code {
 <p>Cheers</p>
 <p>Lars &amp; Christian</p>
 </div>
-<div id="what-json-file-is-mine" class="section level2">
-<h2>What json-file is mine?</h2>
-<pre class="r"><code>json_files &lt;- list.files(path = &quot;data/&quot;, full.names = T)
-json_files &lt;- json_files[json_files != &quot;data/template.json&quot;]
-json_files %&gt;% 
-  as_tibble() %&gt;% 
-  mutate(data = map(value, fromJSON)) %&gt;% 
-  unnest(data) %&gt;% 
-  select(&quot;jsonfile&quot; = value, name) %&gt;% 
-  unnest(name) %&gt;% 
-  kable()</code></pre>
+<div id="which-json-file-is-mine" class="section level2">
+<h2>Which json-file is mine?</h2>
 <table>
 <colgroup>
 <col width="54%" />
@@ -219,7 +211,7 @@ json_files %&gt;%
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">data//Center for Special Collections og Digital humanities.json</td>
+<td align="left">data//Center_for_Special_Collections_og_Digital_humanities.json</td>
 <td align="left">Center for Special Collections og Digital humanities</td>
 </tr>
 <tr class="even">
@@ -231,11 +223,11 @@ json_files %&gt;%
 <td align="left">Digital Lab</td>
 </tr>
 <tr class="even">
-<td align="left">data//Digital Scholarship Centre.json</td>
+<td align="left">data//Digital_Scholarship_Centre.json</td>
 <td align="left">Digital Scholarship Centre</td>
 </tr>
 <tr class="odd">
-<td align="left">data//IT Laboratories.json</td>
+<td align="left">data//IT_Laboratories.json</td>
 <td align="left">IT Laboratories</td>
 </tr>
 <tr class="even">
@@ -247,7 +239,7 @@ json_files %&gt;%
 <td align="left">KUB datalab</td>
 </tr>
 <tr class="even">
-<td align="left">data//The Digital Library Lab.json</td>
+<td align="left">data//The_Digital_Library_Lab.json</td>
 <td align="left">The Digital Library Lab</td>
 </tr>
 </tbody>
