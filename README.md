@@ -1,2 +1,11 @@
-# Library-labs
-Visualisering og sådan af labs på biblioteker
+Indtil videre ikke så mange, men om lidt udelukkende fra vores
+kursussystem.
+
+    TEST_SECRET <- Sys.getenv("TEST_SECRET")
+    print(TEST_SECRET)
+
+    ## [1] ""
+
+    list.files(path = "data/")
+
+    ## [1] "kubdatalab.json" "template.json"
