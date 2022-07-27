@@ -29,6 +29,7 @@ dette er index.rmd
 
 ```{r læsfiler, echo = F}
 json_files <- list.files(path = "data/", full.names = T)
+
 json_files <- json_files[json_files != "data/template.json"]
 json_files
 ```
@@ -42,7 +43,7 @@ data <- json_files %>% map_dfr(fromJSON)  %>%
 første forsøg på et kort!
 
 ```{r kort}
-json_files %>% map_dfr(fromJSON) %>% 
+data %>% 
   select(name, coordinates) %>% 
   unnest(c(name, coordinates)) %>% 
   unnest(c(lat, lon)) %>% 
