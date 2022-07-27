@@ -183,48 +183,130 @@ pre code {
 <p>What it says on the tin. Our boss wanted us to map potential collaborators, or do an analysis of the ecosystem of labs in libraries. This is it!</p>
 <p><a href="contribute.html">Contribute?</a></p>
 <p>dette er index.rmd</p>
-<pre class="r"><code>json_files &lt;- list.files(path = &quot;data/&quot;, full.names = T)
-json_files &lt;- json_files[json_files != &quot;data/template.json&quot;]
-json_files</code></pre>
-<pre><code>## [1] &quot;data//Center for Special Collections og Digital humanities.json&quot;
+<pre><code>## [1] &quot;data//Center_for_Special_Collections_og_Digital_humanities.json&quot;
 ## [2] &quot;data//DigiMaker.json&quot;                                           
 ## [3] &quot;data//Digital Lab.json&quot;                                         
-## [4] &quot;data//Digital Scholarship Centre.json&quot;                          
-## [5] &quot;data//IT Laboratories.json&quot;                                     
+## [4] &quot;data//Digital_Scholarship_Centre.json&quot;                          
+## [5] &quot;data//IT_Laboratories.json&quot;                                     
 ## [6] &quot;data//kubdatalab.json&quot;                                          
 ## [7] &quot;data//template.json&quot;                                            
-## [8] &quot;data//The Digital Library Lab.json&quot;</code></pre>
-<pre class="r"><code>json_files %&gt;% map_dfr(fromJSON)  %&gt;% 
-unnest(c(&quot;name&quot;, &quot;type&quot;, &quot;Description&quot;, &quot;link&quot;, &quot;Institution&quot;))</code></pre>
-<pre><code>## # A tibble: 8 × 15
-##   name      type  Descr…¹ link  coord…² Insti…³ Conta…⁴ Activ…⁵ Carpe…⁶ Software
-##   &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; &lt;list&gt;  &lt;chr&gt;   &lt;list&gt;  &lt;list&gt;  &lt;list&gt;  &lt;list&gt;  
-## 1 Center f… Univ… The Ce… http… &lt;dbl&gt;   Univer… &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr[…]&gt;
-## 2 DigiMaker Univ… DigiMa… http… &lt;dbl&gt;   Linköp… &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr[…]&gt;
-## 3 Digital … Univ… The Di… http… &lt;dbl&gt;   Univer… &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr[…]&gt;
-## 4 Digital … Univ… At the… http… &lt;dbl&gt;   Univer… &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr[…]&gt;
-## 5 IT Labor… Univ… Eight … http… &lt;dbl&gt;   Vilniu… &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr[…]&gt;
-## 6 KUB data… Unib… Free t… www.… &lt;int&gt;   hvad v… &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr[…]&gt;
-## 7 KUB data… Unib… Free t… www.… &lt;int&gt;   hvad v… &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr[…]&gt;
-## 8 The Digi… Univ… The la… http… &lt;dbl&gt;   Uppsal… &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr[…]&gt;
-## # … with 6 more variables: coordinates$lon &lt;list&gt;, Hardware &lt;list&gt;,
-## #   Techniques &lt;list&gt;, Fields &lt;list&gt;, `Target audience` &lt;list&gt;,
-## #   Collaborations &lt;list&gt;, and abbreviated variable names ¹​Description,
-## #   ²​coordinates$lat, ³​Institution, ⁴​`Contact email`, ⁵​`Activity calendar`,
-## #   ⁶​Carpentries
-## # ℹ Use `colnames()` to see all variable names</code></pre>
+## [8] &quot;data//The_Digital_Library_Lab.json&quot;</code></pre>
 <p>første forsøg på et kort!</p>
 <pre class="r"><code>json_files %&gt;% map_dfr(fromJSON) %&gt;% 
   select(name, coordinates) %&gt;% 
   unnest(c(name, coordinates)) %&gt;% 
   unnest(c(lat, lon)) %&gt;% 
   rename(lng = lon) %&gt;% 
+  select(lng, lat, name) %&gt;% 
   leaflet() %&gt;% 
   addTiles() %&gt;% 
-  addMarkers()</code></pre>
+  addMarkers(popup = ~htmlEscape(name))</code></pre>
 <pre><code>## Assuming &quot;lng&quot; and &quot;lat&quot; are longitude and latitude, respectively</code></pre>
-<div id="htmlwidget-9c2505d877be401422a1" style="width:672px;height:480px;" class="leaflet html-widget"></div>
-<script type="application/json" data-for="htmlwidget-9c2505d877be401422a1">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"https://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addMarkers","args":[[55.3692976892227,58.3974265914741,60.3875803169296,59.9386696406265,54.6828451443768,57,57,59.8595952551671],[10.42822676244,15.5782049264137,5.31796974187248,10.7214465776212,25.2867365108609,11,11,17.6214738143488],null,null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},null,null,null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"limits":{"lat":[54.6828451443768,60.3875803169296],"lng":[5.31796974187248,25.2867365108609]}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-e8bb46706aa443007d0d" style="width:672px;height:480px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-e8bb46706aa443007d0d">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"https://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addMarkers","args":[[55.3692976892227,58.3974265914741,60.3875803169296,59.9386696406265,54.6828451443768,55.6974256516904,57,59.8595952551671],[10.42822676244,15.5782049264137,5.31796974187248,10.7214465776212,25.2867365108609,12.5602532379718,11,17.6214738143488],null,null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},["Center for Special Collections og Digital humanities","DigiMaker","Digital Lab","Digital Scholarship Centre","IT Laboratories","KUB datalab","KUB datalab","The Digital Library Lab"],null,null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"limits":{"lat":[54.6828451443768,60.3875803169296],"lng":[5.31796974187248,25.2867365108609]}},"evals":[],"jsHooks":[]}</script>
+<div id="kontakt-mails" class="section level2">
+<h2>Kontakt mails</h2>
+<pre class="r"><code>data %&gt;% 
+  select(name, `Contact email`) %&gt;% 
+  unnest(`Contact email`) %&gt;% 
+  kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">name</th>
+<th align="left">Contact email</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Center for Special Collections og Digital humanities</td>
+<td align="left"><a href="mailto:sdub@bib.sdu.dk" class="email">sdub@bib.sdu.dk</a></td>
+</tr>
+<tr class="even">
+<td align="left">DigiMaker</td>
+<td align="left"><a href="mailto:biblioteket@liu.se" class="email">biblioteket@liu.se</a></td>
+</tr>
+<tr class="odd">
+<td align="left">Digital Lab</td>
+<td align="left"><a href="mailto:post@ub.uib.no" class="email">post@ub.uib.no</a></td>
+</tr>
+<tr class="even">
+<td align="left">Digital Scholarship Centre</td>
+<td align="left"><a href="mailto:digitalscholarship@ub.uio.no" class="email">digitalscholarship@ub.uio.no</a></td>
+</tr>
+<tr class="odd">
+<td align="left">IT Laboratories</td>
+<td align="left"><a href="mailto:mb@mb.vu.lt" class="email">mb@mb.vu.lt</a></td>
+</tr>
+<tr class="even">
+<td align="left">KUB datalab</td>
+<td align="left"><a href="mailto:kubdatalab@kb.dk" class="email">kubdatalab@kb.dk</a></td>
+</tr>
+<tr class="odd">
+<td align="left">KUB datalab</td>
+<td align="left"><a href="mailto:kubdatalab@kb.dk" class="email">kubdatalab@kb.dk</a></td>
+</tr>
+<tr class="even">
+<td align="left">The Digital Library Lab</td>
+<td align="left"><a href="https://libanswers.ub.uu.se/en" class="uri">https://libanswers.ub.uu.se/en</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="aktivitetskalendere" class="section level2">
+<h2>Aktivitetskalendere</h2>
+<p>Ja, det skal gøres linkbart. Smid et issue i repoet, så kommer det nok.</p>
+<pre class="r"><code>data %&gt;% 
+  select(name, `Activity calendar`) %&gt;% 
+  unnest(`Activity calendar`) %&gt;% 
+  kable()</code></pre>
+<table>
+<colgroup>
+<col width="29%" />
+<col width="70%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">name</th>
+<th align="left">Activity calendar</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Center for Special Collections og Digital humanities</td>
+<td align="left"><a href="https://www.sdu.dk/da/bibliotek/forskere/scdh/kurser" class="uri">https://www.sdu.dk/da/bibliotek/forskere/scdh/kurser</a></td>
+</tr>
+<tr class="even">
+<td align="left">DigiMaker</td>
+<td align="left"><a href="https://liu-se.libcal.com/calendar?cid=7687&amp;t=g&amp;d=0000-00-00&amp;cal=7687&amp;inc=0" class="uri">https://liu-se.libcal.com/calendar?cid=7687&amp;t=g&amp;d=0000-00-00&amp;cal=7687&amp;inc=0</a></td>
+</tr>
+<tr class="odd">
+<td align="left">Digital Lab</td>
+<td align="left"><a href="https://www.uib.no/en/digitallab/calendar" class="uri">https://www.uib.no/en/digitallab/calendar</a></td>
+</tr>
+<tr class="even">
+<td align="left">Digital Scholarship Centre</td>
+<td align="left"><a href="https://www.ub.uio.no/bibliotekene/dsc/index.html" class="uri">https://www.ub.uio.no/bibliotekene/dsc/index.html</a></td>
+</tr>
+<tr class="odd">
+<td align="left">IT Laboratories</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">KUB datalab</td>
+<td align="left">www.noget.dk</td>
+</tr>
+<tr class="odd">
+<td align="left">KUB datalab</td>
+<td align="left">www.noget.dk</td>
+</tr>
+<tr class="even">
+<td align="left">The Digital Library Lab</td>
+<td align="left"><a href="https://libcal.ub.uu.se/calendar/courses?cid=5747&amp;t=d&amp;d=0000-00-00&amp;cal=5747&amp;ct=33288,34401,34399,34402,34398,34397,34400&amp;inc=0" class="uri">https://libcal.ub.uu.se/calendar/courses?cid=5747&amp;t=d&amp;d=0000-00-00&amp;cal=5747&amp;ct=33288,34401,34399,34402,34398,34397,34400&amp;inc=0</a></td>
+</tr>
+</tbody>
+</table>
+</div>
 
 
 
