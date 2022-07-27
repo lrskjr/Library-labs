@@ -1,5 +1,5 @@
 ---
-title: Tal og data fra KUB Datalab
+title: Library Labs - the map!
 output: 
   html_document: 
     include-in-header:
@@ -15,7 +15,7 @@ library(tidyverse)
 library(leaflet)
 ```
 
-
+dette er index.rmd
 
 
 ```{r læsfiler}
