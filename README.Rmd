@@ -8,6 +8,8 @@ always_allow_html: true
 knitr::opts_chunk$set(echo = TRUE)
 source(here::here("rmd_config.R"))
 library(jsonlite)
+library(tidyverse)
+library(leaflet)
 ```
 
 Indtil videre ikke så mange, men om lidt udelukkende fra vores kursussystem.
@@ -18,6 +20,22 @@ print(TEST_SECRET)
 ```
 
 ```{r}
-list.files(path = "data/")
+json_files <- list.files(path = "data/", full.names = T)
+```
+
+første forsøg på et kort!
+
+```{r}
+json_files %>% map_dfr(fromJSON) %>% 
+  select(name, coordinates) %>% 
+  unnest(c(name, coordinates)) %>% 
+  unnest(c(lat, lon)) %>% 
+  mutate(lat = lat + .01,
+         lng = lon + 0.01) %>% 
+  select(lat, lng) %>% 
+  leaflet() %>% 
+  addTiles() %>% 
+  addMarkers()
+
 ```
 
