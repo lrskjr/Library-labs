@@ -6,7 +6,7 @@ always_allow_html: true
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-source(here::here("rmd_config.R"))
+source("rmd_config.R")
 library(jsonlite)
 library(tidyverse)
 library(leaflet)
