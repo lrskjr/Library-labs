@@ -180,21 +180,51 @@ pre code {
 </div>
 
 
+<p>What it says on the tin. Our boss wanted us to map potential collaborators, or do an analysis of the ecosystem of labs in libraries. This is it!</p>
+<p><a href="contribute.html">Contribute?</a></p>
 <p>dette er index.rmd</p>
-<pre class="r"><code>json_files &lt;- list.files(path = &quot;data/&quot;, full.names = T)</code></pre>
+<pre class="r"><code>json_files &lt;- list.files(path = &quot;data/&quot;, full.names = T)
+json_files &lt;- json_files[json_files != &quot;data/template.json&quot;]
+json_files</code></pre>
+<pre><code>## [1] &quot;data//Center for Special Collections og Digital humanities.json&quot;
+## [2] &quot;data//DigiMaker.json&quot;                                           
+## [3] &quot;data//Digital Lab.json&quot;                                         
+## [4] &quot;data//Digital Scholarship Centre.json&quot;                          
+## [5] &quot;data//IT Laboratories.json&quot;                                     
+## [6] &quot;data//kubdatalab.json&quot;                                          
+## [7] &quot;data//template.json&quot;                                            
+## [8] &quot;data//The Digital Library Lab.json&quot;</code></pre>
+<pre class="r"><code>json_files %&gt;% map_dfr(fromJSON)  %&gt;% 
+unnest(c(&quot;name&quot;, &quot;type&quot;, &quot;Description&quot;, &quot;link&quot;, &quot;Institution&quot;))</code></pre>
+<pre><code>## # A tibble: 8 × 15
+##   name      type  Descr…¹ link  coord…² Insti…³ Conta…⁴ Activ…⁵ Carpe…⁶ Software
+##   &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; &lt;list&gt;  &lt;chr&gt;   &lt;list&gt;  &lt;list&gt;  &lt;list&gt;  &lt;list&gt;  
+## 1 Center f… Univ… The Ce… http… &lt;dbl&gt;   Univer… &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr[…]&gt;
+## 2 DigiMaker Univ… DigiMa… http… &lt;dbl&gt;   Linköp… &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr[…]&gt;
+## 3 Digital … Univ… The Di… http… &lt;dbl&gt;   Univer… &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr[…]&gt;
+## 4 Digital … Univ… At the… http… &lt;dbl&gt;   Univer… &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr[…]&gt;
+## 5 IT Labor… Univ… Eight … http… &lt;dbl&gt;   Vilniu… &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr[…]&gt;
+## 6 KUB data… Unib… Free t… www.… &lt;int&gt;   hvad v… &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr[…]&gt;
+## 7 KUB data… Unib… Free t… www.… &lt;int&gt;   hvad v… &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr[…]&gt;
+## 8 The Digi… Univ… The la… http… &lt;dbl&gt;   Uppsal… &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr[…]&gt;
+## # … with 6 more variables: coordinates$lon &lt;list&gt;, Hardware &lt;list&gt;,
+## #   Techniques &lt;list&gt;, Fields &lt;list&gt;, `Target audience` &lt;list&gt;,
+## #   Collaborations &lt;list&gt;, and abbreviated variable names ¹​Description,
+## #   ²​coordinates$lat, ³​Institution, ⁴​`Contact email`, ⁵​`Activity calendar`,
+## #   ⁶​Carpentries
+## # ℹ Use `colnames()` to see all variable names</code></pre>
 <p>første forsøg på et kort!</p>
 <pre class="r"><code>json_files %&gt;% map_dfr(fromJSON) %&gt;% 
   select(name, coordinates) %&gt;% 
   unnest(c(name, coordinates)) %&gt;% 
   unnest(c(lat, lon)) %&gt;% 
-  mutate(lat = lat + .01,
-         lng = lon + 0.01) %&gt;% 
-  select(lat, lng) %&gt;% 
+  rename(lng = lon) %&gt;% 
   leaflet() %&gt;% 
   addTiles() %&gt;% 
   addMarkers()</code></pre>
-<div id="htmlwidget-46790386b72859f35aef" style="width:672px;height:480px;" class="leaflet html-widget"></div>
-<script type="application/json" data-for="htmlwidget-46790386b72859f35aef">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"https://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addMarkers","args":[[55.3792976892227,58.4074265914741,60.3975803169296,59.9486696406265,54.6928451443768,57.01,57.01,59.8695952551671],[10.43822676244,15.5882049264137,5.32796974187248,10.7314465776212,25.2967365108609,11.01,11.01,17.6314738143488],null,null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},null,null,null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"limits":{"lat":[54.6928451443768,60.3975803169296],"lng":[5.32796974187248,25.2967365108609]}},"evals":[],"jsHooks":[]}</script>
+<pre><code>## Assuming &quot;lng&quot; and &quot;lat&quot; are longitude and latitude, respectively</code></pre>
+<div id="htmlwidget-c9d0e0979b52679a644a" style="width:672px;height:480px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c9d0e0979b52679a644a">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"https://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addMarkers","args":[[55.3692976892227,58.3974265914741,60.3875803169296,59.9386696406265,54.6828451443768,57,57,59.8595952551671],[10.42822676244,15.5782049264137,5.31796974187248,10.7214465776212,25.2867365108609,11,11,17.6214738143488],null,null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},null,null,null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"limits":{"lat":[54.6828451443768,60.3875803169296],"lng":[5.31796974187248,25.2867365108609]}},"evals":[],"jsHooks":[]}</script>
 
 
 
