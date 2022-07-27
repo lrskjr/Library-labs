@@ -1,1 +1,42 @@
-tekst om hvordan man bidrager
+---
+title: Library Labs
+output: 
+  html_document
+htmlwidgets: TRUE
+always_allow_html: true
+---
+
+## How to contribute
+
+
+We would like this to be a community driven page. 
+
+You can contribute in several ways:
+
+## Update your data
+Maybe we have gotten your data wrong. Maybe there is simply something missing.
+
+Go to the repo, and place pull request for a change in the json-file
+corresponding to your lab.
+
+## Add your data
+
+Maybe we have forgotten about you. Maybe we simply did not know that you 
+exist. Or maybe we have not got to you yet.
+
+Go to the repo, grab the template json-file, fill out your information, and 
+place at pull request for adding the file.
+
+## Contribute to the project.
+This was hacked together during a couple of afternoons, including the time
+taken to read the *all* the documentation on markdown::render(). 
+
+There are probably an infinity of improvements that can be made.
+
+Fork the project, make it better, make a pull-request. We would be so grateful!
+
+Cheers
+
+Lars & Christian
+
+KUB Datalab

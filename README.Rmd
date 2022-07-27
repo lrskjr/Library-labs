@@ -1,5 +1,5 @@
 ---
-title: Tal og data fra KUB Datalab
+title: Tal og data fra KUB Datalab readme.rmd
 output: 
   html_document: 
     include-in-header:
