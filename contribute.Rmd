@@ -6,6 +6,15 @@ htmlwidgets: TRUE
 always_allow_html: true
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+source("rmd_config.R")
+library(jsonlite)
+library(tidyverse)
+library(knitr)
+```
+
+
 ## How to contribute
 
 
@@ -17,7 +26,7 @@ You can contribute in several ways:
 Maybe we have gotten your data wrong. Maybe there is simply something missing.
 
 Go to the repo, and place pull request for a change in the json-file
-corresponding to your lab.
+corresponding to your lab. The relevant file is listed in the table below.
 
 ## Add your data
 
@@ -38,5 +47,21 @@ Fork the project, make it better, make a pull-request. We would be so grateful!
 Cheers
 
 Lars & Christian
+
+
+## What json-file is mine?
+
+
+```{r læsfiler}
+json_files <- list.files(path = "data/", full.names = T)
+json_files <- json_files[json_files != "data/template.json"]
+json_files %>% 
+  as_tibble() %>% 
+  mutate(data = map(value, fromJSON)) %>% 
+  unnest(data) %>% 
+  select("jsonfile" = value, name) %>% 
+  unnest(name) %>% 
+  kable()
+```
 
 KUB Datalab
