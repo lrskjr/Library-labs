@@ -7,6 +7,13 @@ output:
 htmlwidgets: TRUE
 always_allow_html: true
 ---
+
+What it says on the tin. Our boss wanted us to map potential collaborators, 
+or do an analysis of the ecosystem of labs in libraries. This is it!
+
+[Contribute?](contribute.html)
+
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 source("rmd_config.R")
@@ -20,7 +27,15 @@ dette er index.rmd
 
 ```{r læsfiler}
 json_files <- list.files(path = "data/", full.names = T)
+json_files <- json_files[json_files != "data/template.json"]
+json_files
 ```
+
+```{r hent data}
+json_files %>% map_dfr(fromJSON)  %>% 
+unnest(c("name", "type", "Description", "link", "Institution"))
+```
+
 
 første forsøg på et kort!
 
@@ -29,9 +44,7 @@ json_files %>% map_dfr(fromJSON) %>%
   select(name, coordinates) %>% 
   unnest(c(name, coordinates)) %>% 
   unnest(c(lat, lon)) %>% 
-  mutate(lat = lat + .01,
-         lng = lon + 0.01) %>% 
-  select(lat, lng) %>% 
+  rename(lng = lon) %>% 
   leaflet() %>% 
   addTiles() %>% 
   addMarkers()
