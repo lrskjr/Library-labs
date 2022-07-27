@@ -1,7 +1,8 @@
 ---
 title: Tal og data fra KUB Datalab
-output: html_document
-  includes:
+output: 
+  html_document: 
+    includes: 
       in_header: header.html
 htmlwidgets: TRUE
 always_allow_html: true
