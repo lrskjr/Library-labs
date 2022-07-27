@@ -24,6 +24,7 @@ jobs:
           Rscript -e 'install.packages("plotly")'
           Rscript -e 'install.packages("knitr")'
           Rscript -e 'install.packages("tidyr")'
+          Rscript -e 'install.packages("here")'
           Rscript -e 'install.packages("dplyr")'
           Rscript -e 'install.packages("openssl")'
       - name: Render README
