@@ -62,7 +62,7 @@ data %>%
   kable()
 ```
 ## Aktivitetskalendere
-
+Ja, det skal gøres linkbart. Smid et issue i repoet, så kommer det nok.
 ```{r}
 data %>% 
   select(name, `Activity calendar`) %>% 
