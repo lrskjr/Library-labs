@@ -19,21 +19,23 @@ knitr::opts_chunk$set(echo = TRUE)
 source("rmd_config.R")
 library(jsonlite)
 library(tidyverse)
+library(knitr)
 library(leaflet)
+library(htmltools)
 ```
 
 dette er index.rmd
 
 
-```{r læsfiler}
+```{r læsfiler, echo = F}
 json_files <- list.files(path = "data/", full.names = T)
 json_files <- json_files[json_files != "data/template.json"]
 json_files
 ```
 
-```{r hent data}
-json_files %>% map_dfr(fromJSON)  %>% 
-unnest(c("name", "type", "Description", "link", "Institution"))
+```{r hent data, echo = F}
+data <- json_files %>% map_dfr(fromJSON)  %>% 
+  unnest(c("name", "type", "Description", "link", "Institution"))
 ```
 
 
@@ -45,9 +47,26 @@ json_files %>% map_dfr(fromJSON) %>%
   unnest(c(name, coordinates)) %>% 
   unnest(c(lat, lon)) %>% 
   rename(lng = lon) %>% 
+  select(lng, lat, name) %>% 
   leaflet() %>% 
   addTiles() %>% 
-  addMarkers()
+  addMarkers(popup = ~htmlEscape(name))
 
+```
+## Kontakt mails
+
+```{r}
+data %>% 
+  select(name, `Contact email`) %>% 
+  unnest(`Contact email`) %>% 
+  kable()
+```
+## Aktivitetskalendere
+
+```{r}
+data %>% 
+  select(name, `Activity calendar`) %>% 
+  unnest(`Activity calendar`) %>% 
+  kable()
 ```
 
