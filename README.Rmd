@@ -12,20 +12,16 @@ library(tidyverse)
 library(leaflet)
 ```
 
-Indtil videre ikke så mange, men om lidt udelukkende fra vores kursussystem.
 
-```{r}
-TEST_SECRET <- Sys.getenv("TEST_SECRET")
-print(TEST_SECRET)
-```
 
-```{r}
+
+```{r læsfiler}
 json_files <- list.files(path = "data/", full.names = T)
 ```
 
 første forsøg på et kort!
 
-```{r}
+```{r kort}
 json_files %>% map_dfr(fromJSON) %>% 
   select(name, coordinates) %>% 
   unnest(c(name, coordinates)) %>% 
