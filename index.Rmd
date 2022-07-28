@@ -13,8 +13,7 @@ or do an analysis of the ecosystem of labs in libraries. This is it!
 
 [Contribute?](contribute.html)
 
-data/template.json
-data//tempa
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 source("rmd_config.R")
@@ -28,14 +27,13 @@ library(htmltools)
 
 
 
-```{r læsfiler, echo = F}
-json_files <- list.files(path = "data/", full.names = T)
-
-json_files <- json_files[!grepl("template.json", json_files)]
+```{r læsdata, echo = F}
+source("readfiles.R")
+labdata <- readRDS("labdata.rds")
 ```
 
 ```{r hent_data, echo = F}
-data <- json_files %>% map_dfr(fromJSON)  %>% 
+data <- labdata  %>% 
   unnest(c("name", "type", "Description", "link", "Institution"))
 ```
 
@@ -116,5 +114,16 @@ l <- leaflet() %>%
   addLayersControl(
     overlayGroups = names(data.type.df)
   )
+```
+## flere data
+
+```{r}
+labdata %>%
+  select(rowname, name) %>% 
+  unnest(name) %>% 
+  mutate(detaljer = paste0("https://kubdatalab.github.io/Library-labs/listing.html", "#", rowname)) %>% 
+  mutate(name = paste0("[",name,"](", detaljer, ")")) %>% 
+  select(name) %>% 
+  kable()
 ```
 

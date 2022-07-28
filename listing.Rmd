@@ -10,20 +10,17 @@ always_allow_html: true
 
 Vinder stadig ingen priser for sit webdesign
 
-```{r dependencies, echo =F }
+```{r dependencies, echo =F, message = F }
 library(dplyr)
 library(jsonlite)
 library(purrr)
 ```
 
 
-```{r read_data, echo = F}
-json_files <- list.files(path = "data/", full.names = T)
-
-json_files <- json_files[!grepl("template.json", json_files)]
-
-data <- json_files %>% map_dfr(fromJSON) %>% 
-  add_rownames()
+```{r read_data, echo = F, warning=F}
+source("readfiles.R")
+labdata <- readRDS("labdata.rds")
+data <- labdata
 sektioner <- names(data)
 sektioner <- sektioner[sektioner != "rowname"]
 sektioner <- sektioner[sektioner != "name"]
@@ -35,25 +32,21 @@ data <- split(data, data$rowname)
 
 
 
-```{r}
-output <- NULL
+```{r print_liste, echo = F}
+output <<- ""
 for(i in names(data)){
   name <- data[[i]]["name"] %>% unlist()
-  output <- paste0(output, "<br/>", "## ", name, "<br/><br/>")
-  
-  print(paste0("##", name))
+  output <<- paste0(output, "<br/>", "<h2> ", name, "</H1><a id=",i,"></a><br/>")
   for(j in sektioner){
     emne <- paste0("**",j,":** ")
     indhold <- data[[i]][j] %>% unlist() %>% unname()
+    indhold <- paste0(indhold, collapse= ", ")
     ud <- paste0(emne, indhold, "<br/>")
-    output <- paste0(output, ud)
+    output <<- paste0(output, ud)
     
     
   }
 }
-
-
-
 
 
 ```
