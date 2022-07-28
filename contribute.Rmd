@@ -57,7 +57,7 @@ Lars & Christian
 
 ```{r læsfiler, echo = F}
 json_files <- list.files(path = "data/", full.names = T)
-json_files <- json_files[json_files != "data/template.json"]
+json_files <- json_files[!grepl("template.json", json_files)]
 json_files %>% 
   as_tibble() %>% 
   mutate(data = map(value, fromJSON)) %>% 
