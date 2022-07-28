@@ -86,11 +86,24 @@ data %>%
 ```
 ## Et argument for en eller anden form for kontrol af typer
 
+labdata %>%
+  select(rowname, name) %>% 
+  unnest(name) %>% 
+  mutate(detaljer = paste0("https://kubdatalab.github.io/Library-labs/listing.html", "#", rowname))
+  
+
 ```{r grupperet_kort, echo=F}
-data.type.df <- data  %>% 
-  select(name,type,coordinates) %>% 
+
+labdata %>%
+  select(rowname, name) %>% 
+  unnest(name) %>% 
+  mutate(detaljer = paste0("https://kubdatalab.github.io/Library-labs/listing.html", "#", rowname))
+
+data.type.df <- labdata  %>% 
+  select(rowname, name,type,coordinates) %>% 
   unnest(c("coordinates")) %>% 
-  unnest(c(lat, lon))
+  unnest(c(lat, lon)) %>% 
+  mutate(detaljer = paste0('<a href="https://kubdatalab.github.io/Library-labs/listing.html#', rowname, '">', name, '</a>' ))
   
 
 
@@ -104,7 +117,7 @@ l <- leaflet() %>%
        l <<- l %>% 
          addMarkers(data = data.type.df[[df]],
        lng = ~lon, lat = ~lat,
-       popup = ~as.character(name),
+       popup = ~detaljer,
        group = df)
      })
 
