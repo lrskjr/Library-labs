@@ -1,0 +1,61 @@
+---
+title: Library Labs - the list!
+output: 
+  html_document: 
+    include-in-header:
+      - header.html
+htmlwidgets: TRUE
+always_allow_html: true
+---
+
+Vinder stadig ingen priser for sit webdesign
+
+```{r dependencies, echo =F }
+library(dplyr)
+library(jsonlite)
+library(purrr)
+```
+
+
+```{r read_data, echo = F}
+json_files <- list.files(path = "data/", full.names = T)
+
+json_files <- json_files[!grepl("template.json", json_files)]
+
+data <- json_files %>% map_dfr(fromJSON) %>% 
+  add_rownames()
+sektioner <- names(data)
+sektioner <- sektioner[sektioner != "rowname"]
+sektioner <- sektioner[sektioner != "name"]
+
+data <- split(data, data$rowname)
+
+```
+
+
+
+
+```{r}
+output <- NULL
+for(i in names(data)){
+  name <- data[[i]]["name"] %>% unlist()
+  output <- paste0(output, "<br/>", "## ", name, "<br/><br/>")
+  
+  print(paste0("##", name))
+  for(j in sektioner){
+    emne <- paste0("**",j,":** ")
+    indhold <- data[[i]][j] %>% unlist() %>% unname()
+    ud <- paste0(emne, indhold, "<br/>")
+    output <- paste0(output, ud)
+    
+    
+  }
+}
+
+
+
+
+
+```
+`r output`
+
