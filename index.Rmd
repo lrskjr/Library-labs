@@ -53,7 +53,10 @@ data %>%
   select(lng, lat, name) %>% 
   leaflet() %>% 
   addTiles() %>% 
-  addMarkers(popup = ~htmlEscape(name))
+  addMarkers(popup = ~htmlEscape(name), group="labs") %>% 
+  addLayersControl(
+    overlayGroups = c("labs")
+  )
 
 ```
 ## Kontakt mails
@@ -71,5 +74,36 @@ data %>%
   select(name, `Activity calendar`) %>% 
   unnest(`Activity calendar`) %>% 
   kable()
+```
+## Et argument for en eller anden form for kontrol af typer
+
+```{r}
+data.type.df <- json_files %>% map_dfr(fromJSON)  %>% 
+  unnest(c("name", "type", "coordinates")) %>% 
+  select(name, type, lat, lon) %>% 
+  unnest(c(lat, lon))
+  
+
+
+data.type.df <- split(data.type.df, data.type.df$type)
+
+l <- leaflet() %>% 
+  addTiles()
+
+   names(data.type.df) %>% 
+     purrr::walk(function(df){
+       l <<- l %>% 
+         addMarkers(data = data.type.df[[df]],
+       lng = ~lon, lat = ~lat,
+       popup = ~as.character(name),
+       group = df)
+     })
+
+
+
+  l %>% 
+  addLayersControl(
+    overlayGroups = names(data.type.df)
+  )
 ```
 
