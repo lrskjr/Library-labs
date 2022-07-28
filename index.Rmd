@@ -34,9 +34,11 @@ json_files <- json_files[json_files != "data/template.json"]
 json_files
 ```
 
-```{r hent data, echo = F}
+```{r hent_data, echo = F}
 data <- json_files %>% map_dfr(fromJSON)  %>% 
   unnest(c("name", "type", "Description", "link", "Institution"))
+
+data
 ```
 
 
@@ -78,9 +80,9 @@ data %>%
 ## Et argument for en eller anden form for kontrol af typer
 
 ```{r}
-data.type.df <- json_files %>% map_dfr(fromJSON)  %>% 
-  unnest(c("name", "type", "coordinates")) %>% 
-  select(name, type, lat, lon) %>% 
+data.type.df <- data  %>% 
+  select(name,type,coordinates) %>% 
+  unnest(c("coordinates")) %>% 
   unnest(c(lat, lon))
   
 
