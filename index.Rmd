@@ -8,8 +8,16 @@ htmlwidgets: TRUE
 always_allow_html: true
 ---
 
-What it says on the tin. Our boss wanted us to map potential collaborators, 
-or do an analysis of the ecosystem of labs in libraries. This is it!
+In the KUB Datalab, we have considered how to get an overview of some of the digital labs that exist at research libraries.
+ 
+Since we know a little about the possibilities that Github offers, we have decided to build this page with a digital map.
+
+The map can become a collective project, and we hope that colleagues at other digital labs will [Contribute](contribute.html) by adding data.
+
+We have experienced that the development of experience and material is essential to develop quality material that match
+
+the demand and skills of university staff and students, and we hope that the map can contribute to increased communication between library 
+staff who develop course material on digital methods.
 
 [Contribute?](contribute.html)
 
