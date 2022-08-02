@@ -27,7 +27,7 @@ library(htmltools)
 
 
 
-```{r læsdata, echo = F}
+```{r læsdata, echo = F, warning=F}
 source("readfiles.R")
 labdata <- readRDS("labdata.rds")
 ```
@@ -37,26 +37,42 @@ data <- labdata  %>%
   unnest(c("name", "type", "Description", "link", "Institution"))
 ```
 
+## Et argument for en eller anden form for kontrol af typer
 
-første forsøg på et kort!
 
-gør ting ala det her: https://leafletjs.com/examples/layers-control/
 
-```{r kort, echo = F }
-data %>% 
-  select(name, coordinates) %>% 
-  unnest(c(name, coordinates)) %>% 
-  unnest(c(lat, lon)) %>% 
-  rename(lng = lon) %>% 
-  select(lng, lat, name) %>% 
-  leaflet() %>% 
-  addTiles() %>% 
-  addMarkers(popup = ~htmlEscape(name), group="labs") %>% 
+```{r grupperet_kort, echo=F}
+data.type.df <- labdata  %>% 
+  select(rowname, name, type, coordinates) %>% 
+  unnest(c("coordinates")) %>% 
+  unnest(c(lat, lon, type)) %>% 
+  mutate(detaljer = paste0('<a href="https://kubdatalab.github.io/Library-labs/listing.html#', rowname, '">', name, '</a>' ))
+  
+
+
+data.type.df <- split(data.type.df, data.type.df$type)
+
+l <- leaflet() %>% 
+  addTiles()
+
+   names(data.type.df) %>% 
+     purrr::walk(function(df){
+       l <<- l %>% 
+         addMarkers(data = data.type.df[[df]],
+       lng = ~lon, lat = ~lat,
+       popup = ~detaljer,
+       group = df)
+     })
+
+
+
+  l %>% 
   addLayersControl(
-    overlayGroups = c("labs")
+    overlayGroups = names(data.type.df)
   )
-
 ```
+
+
 ## Kontakt mails
 
 ```{r echo = F}
@@ -84,59 +100,3 @@ data %>%
   mutate(`Activity calendar` = paste0("[",`Activity calendar`,"](", `Activity calendar`, ")")) %>% 
   kable()
 ```
-## Et argument for en eller anden form for kontrol af typer
-
-labdata %>%
-  select(rowname, name) %>% 
-  unnest(name) %>% 
-  mutate(detaljer = paste0("https://kubdatalab.github.io/Library-labs/listing.html", "#", rowname))
-  
-
-```{r grupperet_kort, echo=F}
-
-labdata %>%
-  select(rowname, name) %>% 
-  unnest(name) %>% 
-  mutate(detaljer = paste0("https://kubdatalab.github.io/Library-labs/listing.html", "#", rowname))
-
-data.type.df <- labdata  %>% 
-  select(rowname, name,type,coordinates) %>% 
-  unnest(c("coordinates")) %>% 
-  unnest(c(lat, lon)) %>% 
-  mutate(detaljer = paste0('<a href="https://kubdatalab.github.io/Library-labs/listing.html#', rowname, '">', name, '</a>' ))
-  
-
-
-data.type.df <- split(data.type.df, data.type.df$type)
-
-l <- leaflet() %>% 
-  addTiles()
-
-   names(data.type.df) %>% 
-     purrr::walk(function(df){
-       l <<- l %>% 
-         addMarkers(data = data.type.df[[df]],
-       lng = ~lon, lat = ~lat,
-       popup = ~detaljer,
-       group = df)
-     })
-
-
-
-  l %>% 
-  addLayersControl(
-    overlayGroups = names(data.type.df)
-  )
-```
-## flere data
-
-```{r}
-labdata %>%
-  select(rowname, name) %>% 
-  unnest(name) %>% 
-  mutate(detaljer = paste0("https://kubdatalab.github.io/Library-labs/listing.html", "#", rowname)) %>% 
-  mutate(name = paste0("[",name,"](", detaljer, ")")) %>% 
-  select(name) %>% 
-  kable()
-```
-
