@@ -1,25 +1,8 @@
-Indtil videre ikke så mange, men om lidt udelukkende fra vores
-kursussystem.
-
-    TEST_SECRET <- Sys.getenv("TEST_SECRET")
-    print(TEST_SECRET)
-
-    ## [1] ""
-
-    json_files <- list.files(path = "data/", full.names = T)
-
-første forsøg på et kort!
-
-    json_files %>% map_dfr(fromJSON) %>% 
-      select(name, coordinates) %>% 
-      unnest(c(name, coordinates)) %>% 
-      unnest(c(lat, lon)) %>% 
-      mutate(lat = lat + .01,
-             lng = lon + 0.01) %>% 
-      select(lat, lng) %>% 
-      leaflet() %>% 
-      addTiles() %>% 
-      addMarkers()
-
-<div id="htmlwidget-3e3b8b815a35ea75845e" style="width:672px;height:480px;" class="leaflet html-widget"></div>
-<script type="application/json" data-for="htmlwidget-3e3b8b815a35ea75845e">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"https://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addMarkers","args":[[57.01,57.01],[11.01,11.01],null,null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},null,null,null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"limits":{"lat":[57.01,57.01],"lng":[11.01,11.01]}},"evals":[],"jsHooks":[]}</script>
+    ## [1] "data//Center_for_Special_Collections_og_Digital_humanities.json"
+    ## [2] "data//DigiMaker.json"                                           
+    ## [3] "data//Digital Lab.json"                                         
+    ## [4] "data//Digital_Scholarship_Centre.json"                          
+    ## [5] "data//IT_Laboratories.json"                                     
+    ## [6] "data//kubdatalab.json"                                          
+    ## [7] "data//template.json"                                            
+    ## [8] "data//The_Digital_Library_Lab.json"

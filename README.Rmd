@@ -1,9 +1,7 @@
 ---
-title: Tal og data fra KUB Datalab
+title: Tal og data fra KUB Datalab readme.rmd
 output: 
-  html_document: 
-    includes: 
-      in_header: header.html
+  md_document
 htmlwidgets: TRUE
 always_allow_html: true
 ---
@@ -18,23 +16,9 @@ library(leaflet)
 
 
 
-```{r læsfiler}
+```{r læsfiler, echo=F}
 json_files <- list.files(path = "data/", full.names = T)
+json_files
 ```
 
-første forsøg på et kort!
-
-```{r kort}
-json_files %>% map_dfr(fromJSON) %>% 
-  select(name, coordinates) %>% 
-  unnest(c(name, coordinates)) %>% 
-  unnest(c(lat, lon)) %>% 
-  mutate(lat = lat + .01,
-         lng = lon + 0.01) %>% 
-  select(lat, lng) %>% 
-  leaflet() %>% 
-  addTiles() %>% 
-  addMarkers()
-
-```
 

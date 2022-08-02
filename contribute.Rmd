@@ -1,1 +1,70 @@
-tekst om hvordan man bidrager
+---
+title: Library Labs
+output: 
+  html_document
+htmlwidgets: TRUE
+always_allow_html: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+source("rmd_config.R")
+library(jsonlite)
+library(tidyverse)
+library(knitr)
+```
+
+
+## How to contribute
+
+
+We would like this to be a community driven page. 
+
+You can contribute in several ways:
+
+## Update your data
+Maybe we have gotten your data wrong. Maybe there is simply something missing.
+
+Go to the [repo](https://github.com/KUBDatalab/Library-labs), and place pull request for a change in the json-file
+corresponding to your lab. The relevant file is listed in the table below.
+
+## Add your data
+
+Maybe we have forgotten about you. Maybe we simply did not know that you 
+exist. Or maybe we have not got to you yet.
+
+Go to the [repo](https://github.com/KUBDatalab/Library-labs), grab the template 
+json-file, fill out your information, and place a pull request for adding the file.
+
+Instructions on what should be added are (will be) in the template. 
+Try to keep special characters and whitespace out of the filename.
+
+## Contribute to the project.
+This was hacked together during a couple of afternoons, including the time
+taken to read the *all* the documentation on markdown::render(). 
+
+There are probably an infinity of improvements that can be made.
+
+Fork the project, make it better, make a pull-request. We would be so grateful!
+
+Cheers
+
+Lars & Christian
+
+
+## Which json-file is mine?
+
+
+```{r læsfiler, echo = F}
+json_files <- list.files(path = "data/", full.names = T)
+json_files <- json_files[!grepl("template.json", json_files)]
+json_files %>% 
+  as_tibble() %>% 
+  mutate(data = map(value, fromJSON)) %>% 
+  unnest(data) %>% 
+  select("jsonfile" = value, name) %>% 
+  unnest(name) %>% 
+  kable()
+```
+
+KUB Datalab
